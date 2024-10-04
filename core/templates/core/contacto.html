@@ -1,0 +1,45 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 p-0"
+    style="background-image: url('../static/core/inicio/img/carousel-bg-1.jpg');">
+    <div class="container-fluid page-header-inner py-5">
+        <div class="container text-center">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Contacto</h1>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Contact Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="text-primary text-uppercase">// Contactanos //</h6>
+            <h1 class="mb-5">Realizanos cualquier consulta</h1>
+        </div>
+        <div class="row g-4">
+            <div>
+                <div class="wow fadeInUp" data-wow-delay="0.2s">
+                    {% load crispy_forms_tags %}
+
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <table>
+                            {{ form | crispy }}
+                        </table>
+                        <br>
+                        <input class="btn btn-danger" type="reset" value="Limpiar">
+                        <input class="btn btn-success" type="submit" value="Enviar">
+                        <h5>{{ msj }}</h5>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Contact End -->
+
+{% endblock %}

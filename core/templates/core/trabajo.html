@@ -1,0 +1,18 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<div class="container-sm text-center mt-4">
+    <img class="img-fluid" src="{{ lista.foto.url }}" alt="" width="" height="">
+</div>
+<h1 class="preview-subject text-center mb-2 my-2">{{ lista.nombre_trabajo }}</h1>
+<p class="text-center mb-0">Fecha de publicación: {{ lista.fecha|date:"SHORT_DATE_FORMAT" }}</p>
+<br>
+<p class="text-muted mb-0 mx-3">{{ lista.diagnostico }}</p>
+<br>
+<p class="text-muted mb-0 mx-3">Mecánico responsable: {{ lista.mecanico }}</p>
+<br>
+<p class="text-muted mb-0 mx-3">Servicio: {{ lista.servicio }}</p>
+<br>
+<p class="text-muted mb-0 mx-3">Materiales usados: {{ lista.materiales }}</p>
+{% endblock %}

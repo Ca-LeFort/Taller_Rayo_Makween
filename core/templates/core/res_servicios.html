@@ -1,0 +1,86 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 p-0" style="background-image: url(../static/core/inicio/img/carousel-bg-2.jpg);">
+    <div class="container-fluid page-header-inner py-5">
+        <div class="container text-center">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Reserva tu servicio automotriz</h1>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+<br>
+<div class="row justify-content-center">
+    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="team-item">
+            <div class="position-relative overflow-hidden">
+                <img class="" src="{% static 'core/img/service-1.jpg' %}" alt="" height="500px" width="500px">
+            </div>
+            <div class="bg-light text-center p-4">
+                <h5 class="fw-bold mb-0">Pruebas de diagnóstico</h5>
+                <small>Precio: $ {{ precio1 }} CLP</small>
+                <br>
+                <form method="POST" action="{% url 'agregar_carrito' usuario=user.username servicio=1 %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary my-3">Agregar al carrito</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="team-item">
+            <div class="position-relative overflow-hidden">
+                <img class="" src="{% static 'core/img/service-2.jpg' %}" alt="" height="500px" width="500px">
+            </div>
+            <div class="bg-light text-center p-4">
+                <h5 class="fw-bold mb-0">Mantención de Motores</h5>
+                <small>Precio: $ {{ precio2 }} CLP</small>
+                <br>
+                <form method="POST" action="{% url 'agregar_carrito' usuario=user.username servicio=2 %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary my-3">Agregar al carrito</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 wow fadeInUp " data-wow-delay="0.1s">
+        <div class="team-item">
+            <div class="position-relative overflow-hidden">
+                <img class="" src="{% static 'core/img/service-3.jpg' %}" alt="" height="500px" width="500px">
+            </div>
+            <div class="bg-light text-center p-4">
+                <h5 class="fw-bold mb-0">Reemplazo de neumáticos</h5>
+                <small>Precio: $ {{ precio3 }} CLP</small>
+                <br>
+                <form method="POST" action="{% url 'agregar_carrito' usuario=user.username servicio=3 %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary my-3">Agregar al carrito</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="team-item">
+            <div class="position-relative overflow-hidden">
+                <img class="" src="{% static 'core/img/service-4.jpg' %}" alt="" height="500px" width="500px">
+            </div>
+            <div class="bg-light text-center p-4">
+                <h5 class="fw-bold mb-0">Cambio de aceite</h5>
+                <small>Precio: $ {{ precio4 }} CLP</small>
+                <br>
+                <form method="POST" action="{% url 'agregar_carrito' usuario=user.username servicio=4 %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary my-3">Agregar al carrito</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

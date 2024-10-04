@@ -1,0 +1,157 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 p-0"
+    style="background-image: url(../static/core/inicio/img/carousel-bg-2.jpg);">
+    <div class="container-fluid page-header-inner py-5">
+        <div class="container text-center">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Servicios</h1>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+<!-- Service Start -->
+<div class="container-xxl service py-5">
+    <div class="container">
+        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="text-primary text-uppercase">// Nuestros Servicios //</h6>
+            <h1 class="mb-5">Explora nuestros servicios</h1>
+        </div>
+        <div class="row g-4 wow fadeInUp" data-wow-delay="0.3s">
+            <div class="col-lg-4">
+                <div class="nav w-100 nav-pills me-4">
+                        <button class="nav-link w-100 d-flex align-items-center text-start p-4 mb-4 active"
+                            data-bs-toggle="pill" data-bs-target="#tab-pane-1" type="button">
+                            <i class="fa fa-car-side fa-2x me-3"></i>
+                            <h4 class="m-0">Pruebas de diagnóstico</h4>
+                        </button>
+                        <button class="nav-link w-100 d-flex align-items-center text-start p-4 mb-4" data-bs-toggle="pill"
+                            data-bs-target="#tab-pane-2" type="button">
+                            <i class="fa fa-car fa-2x me-3"></i>
+                            <h4 class="m-0">Mantención de motores</h4>
+                        </button>
+                        <button class="nav-link w-100 d-flex align-items-center text-start p-4 mb-4" data-bs-toggle="pill"
+                            data-bs-target="#tab-pane-3" type="button">
+                            <i class="fa fa-cog fa-2x me-3"></i>
+                            <h4 class="m-0">Reemplazo de neumáticos</h4>
+                        </button>
+                        <button class="nav-link w-100 d-flex align-items-center text-start p-4 mb-0" data-bs-toggle="pill"
+                            data-bs-target="#tab-pane-4" type="button">
+                            <i class="fa fa-oil-can fa-2x me-3"></i>
+                            <h4 class="m-0">Cambio de aceite</h4>
+                        </button>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="tab-content w-100">
+                    <div class="tab-pane fade show active" id="tab-pane-1">
+                        <div class="row g-4">
+                            <div class="col-md-6" style="min-height: 350px;">
+                                <div class="position-relative h-100">
+                                    <img class="position-absolute img-fluid w-100 h-100"
+                                        src="{% static 'core/img/service-1.jpg' %}" style="object-fit: cover;" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="mb-3">Nosotros diagnosticamos tu vehículo</h3>
+                                <p class="mb-4">
+                                    En nuestro servicio de pruebas de diagnóstico automotriz, nuestros expertos 
+                                    utilizan tecnología avanzada y su experiencia para identificar con precisión 
+                                    cualquier problema en su vehículo. Obtenga una evaluación completa y detallada 
+                                    para tomar decisiones informadas sobre el mantenimiento y reparación de su 
+                                    automóvil. Confíe en nosotros para mantener su vehículo en óptimas condiciones.</p>
+                                <p><i class="fa fa-check text-success me-3"></i>Servicio de calidad</p>
+                                <p><i class="fa fa-check text-success me-3"></i>Mecánicos Expertos</p>
+                                <a href="{% url 'categoria_trabajo' 4 %}" class="btn btn-primary py-3 px-5 mt-3">Ver trabajos<i
+                                        class="fa fa-arrow-right ms-3"></i></a>
+                                <a href="{% url 'res_servicios' %}" class="btn btn-primary py-3 px-5 mt-3">Reserva tu
+                                    mantención<i class="fa fa-arrow-right ms-3"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-pane-2">
+                        <div class="row g-4">
+                            <div class="col-md-6" style="min-height: 350px;">
+                                <div class="position-relative h-100">
+                                    <img class="position-absolute img-fluid w-100 h-100"
+                                        src="{% static 'core/img/service-2.jpg' %}" style="object-fit: cover;" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="mb-3">Reparamos los motores para aumentar su vida útil</h3>
+                                <p class="mb-4">
+                                    Nuestro servicio de mantenimiento de motores está diseñado para garantizar 
+                                    que su vehículo funcione de manera óptima y confiable. Con el uso de técnicas 
+                                    y herramientas especializadas, nuestros expertos realizan un cuidadoso mantenimiento 
+                                    preventivo y correctivo para maximizar la eficiencia y durabilidad del motor de su automóvil. 
+                                    Confíe en nosotros para mantener su motor en excelente estado y disfrutar de un rendimiento 
+                                    suave y eficiente en cada viaje.</p>
+                                <p><i class="fa fa-check text-success me-3"></i>Herramientas avanzadas</p>
+                                <p><i class="fa fa-check text-success me-3"></i>Prevención de fallas</p>
+                                <a href="{% url 'categoria_trabajo' 3 %}" class="btn btn-primary py-3 px-5 mt-3">Ver trabajos<i
+                                        class="fa fa-arrow-right ms-3"></i></a>
+                                <a href="{% url 'res_servicios' %}" class="btn btn-primary py-3 px-5 mt-3">Reserva tu
+                                    mantención<i class="fa fa-arrow-right ms-3"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-pane-3">
+                        <div class="row g-4">
+                            <div class="col-md-6" style="min-height: 350px;">
+                                <div class="position-relative h-100">
+                                    <img class="position-absolute img-fluid w-100 h-100"
+                                        src="{% static 'core/img/service-3.jpg' %}" style="object-fit: cover;" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="mb-3">Los neumáticos son molestos cuando se desinfla o pinchado</h3>
+                                <p class="mb-4">En nuestro servicio de reemplazo de neumáticos, ofrecemos una 
+                                    amplia gama de opciones de neumáticos de alta calidad para satisfacer las 
+                                    necesidades específicas de su vehículo y estilo de conducción. Nuestros 
+                                    expertos capacitados brindan un servicio rápido y eficiente para garantizar 
+                                    que sus neumáticos estén correctamente instalados y equilibrados, lo que mejora 
+                                    la seguridad y el rendimiento de su automóvil. Confíe en nosotros para proporcionarle 
+                                    neumáticos nuevos y confiables que mantengan su vehículo en la carretera con un agarre 
+                                    óptimo y una conducción suave.</p>
+                                <p><i class="fa fa-check text-success me-3"></i>Técnicas avanzadas</p>
+                                <p><i class="fa fa-check text-success me-3"></i>Neumáticos de repuesto</p>
+                                <a href="{% url 'categoria_trabajo' 2 %}" class="btn btn-primary py-3 px-5 mt-3">Ver trabajos<i
+                                        class="fa fa-arrow-right ms-3"></i></a>
+                                <a href="{% url 'res_servicios' %}" class="btn btn-primary py-3 px-5 mt-3">Reserva tu
+                                    mantención<i class="fa fa-arrow-right ms-3"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="tab-pane-4">
+                        <div class="row g-4">
+                            <div class="col-md-6" style="min-height: 350px;">
+                                <div class="position-relative h-100">
+                                    <img class="position-absolute img-fluid w-100 h-100"
+                                        src="{% static 'core/img/service-4.jpg' %}" style="object-fit: cover;" alt="">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h3 class="mb-3">Refresca tu motor</h3>
+                                <p class="mb-4">Nuestros expertos se encargarán de renovar la vitalidad 
+                                    de tu vehículo con un cambio de aceite rápido y eficiente. No solo 
+                                    protegerás tu motor, sino que también prolongarás la vida útil de tu 
+                                    automóvil, asegurando un rendimiento óptimo en cada viaje. Confía en 
+                                    nosotros para mantener tu motor en su mejor estado y disfrutar de una 
+                                    conducción suave y sin preocupaciones.</p>
+                                <p><i class="fa fa-check text-success me-3"></i>Aceites de calidad</p>
+                                <a href="{% url 'categoria_trabajo' 1 %}" class="btn btn-primary py-3 px-5 mt-3">Ver trabajos<i
+                                        class="fa fa-arrow-right ms-3"></i></a>
+                                <a href="{% url 'res_servicios' %}" class="btn btn-primary py-3 px-5 mt-3">Reserva tu
+                                    mantención<i class="fa fa-arrow-right ms-3"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Service End -->
+{% endblock %}

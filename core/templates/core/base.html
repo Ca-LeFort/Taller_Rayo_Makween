@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="utf-8">
+    <title>Taller Rayo Makween</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'core/img/logo.png' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@600;700&family=Ubuntu:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'core/inicio/lib/animate/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'core/inicio/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'core/inicio/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'core/inicio/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static 'core/inicio/css/style.css' %}" rel="stylesheet">
+
+    <style>
+        .search-container {
+            max-width: 600px;
+            /* Ajusta este valor según sea necesario */
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            /* Ajusta el padding según tus necesidades */
+            box-sizing: border-box;
+            /* Asegura que el padding no aumente el tamaño del input */
+        }
+    </style>
+    {% block extra_styles %}
+    
+    {% endblock %}
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center no-print">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Cargando...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+
+    <!-- Topbar Start -->
+    {% if user.is_authenticated %}
+    <div class="container-fluid bg-light p-0 no-print">
+        <div class="row gx-0 d-none d-lg-flex">
+            <div class="col-lg-12 px-5 d-flex justify-content-between align-items-center py-3">
+                <div class="d-inline-flex align-items-center">
+                    {% if user.is_staff %}
+                    <small class="bi bi-person-fill-gear me-2"></small>
+                    <small class="fa fa-user"> Bienvenido/a Administrador: {{ user.username }}</small>
+                    {% else %}
+                    <div>
+                        <small class="bi bi-person-fill me-2"></small>
+                        <small>Bienvenido/a: {{ user.first_name }} {{ user.last_name }}</small>
+                        {% for group in user.groups.all %}
+                        {% if group.name == 'Mecánico' %}
+                        <div>
+                            <small class="bi bi-wrench me-2"></small>
+                            <small>Mantenciones Realizadas: {{ mecanico.cant_mantenciones_mec }}</small>
+                        </div>
+                        {% elif group.name == 'Cliente' %}
+                        <div>
+                            <small class="bi bi-wrench me-2"></small>
+                            <small>Mantenciones Solicitadas: {{ cliente.cant_mantenciones_cli }}</small>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="ms-auto">
+                    <div class="dropstart position-relative">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <i class="bi bi-cart2 h2 text-dark"></i>
+                        </a>
+                        <ul class="dropdown-menu" style="z-index: 1050;">
+                            <li>
+                                <h5 class="dropdown-header text-center">Servicios</h5>
+                            </li>
+                            {% if carrito.servicio_1 == 'S' %}
+                            <li><h6 class="text-center">Pruebas de diagnóstico</h6></li>
+                            {% endif %}
+                            {% if carrito.servicio_2 == 'S' %}
+                            <li><h6 class="text-center">Mantención de Motores</h6></li>
+                            {% endif %}
+                            {% if carrito.servicio_3 == 'S' %}
+                            <li><h6 class="text-center">Reemplazo de neumáticos</h6></li>
+                            {% endif %}
+                            {% if carrito.servicio_4 == 'S' %}
+                            <li><h6 class="text-center">Cambio de aceite</h6></li>
+                            {% endif %}
+                            <li>
+                                <hr>
+                                <h5 class="dropdown-header text-center">Total Carrito</h5>
+                            </li>
+                            <li>
+                                {% if carrito %}
+                                <p class="text-center">${{ precio_clp }} CLP</p>
+                                {% else %}
+                                <p class="text-center">No hay servicios en el carrito.</p>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0 no-print">
+        <a href="{% url 'index' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+            <h2 class="m-0 text-primary"><i class="fa fa-car me-3"></i>Taller Rayo Makween</h2>
+        </a>
+        <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto p-4 p-lg-0">
+                <a href="{% url 'index' %}" class="nav-item nav-link">Inicio</a>
+                <a href="{% url 'nosotros' %}" class="nav-item nav-link">Nosotros</a>
+                <a href="{% url 'servicios' %}" class="nav-item nav-link">Servicios</a>
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Páginas</a>
+                    <div class="dropdown-menu fade-up m-0">
+                        <a href="{% url 'galeria' %}" class="dropdown-item">Galeria</a>
+                        <a href="{% url 'res_servicios' %}" class="dropdown-item">Reservar servicios</a>
+                        <a href="{% url 'buscador' %}" class="dropdown-item">Búsqueda</a>
+                        <a href="{% url '404' %}" class="dropdown-item">Página 404</a>
+                    </div>
+                </div>
+                <a href="{% url 'contacto' %}" class="nav-item nav-link">Contacto</a>
+                {% if user.is_authenticated %}
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Portal usuario</a>
+                    <div class="dropdown-menu fade-up m-0">
+                        {% if user.is_staff %}
+                        <a href="{% url 'mecanicos' %}" class="dropdown-item">Portal Mecánicos</a>
+                        {% endif %}
+                        {% for group in user.groups.all %}
+                        {% if group.name == 'Mecánico' %}
+                        <a href="{% url 'mecanicos' %}" class="dropdown-item">Portal Mecánicos</a>
+                        {% elif group.name == 'Cliente' %}
+                        <a href="{% url 'carrito' %}" class="dropdown-item">Ver carrito</a>
+                        <a href="{% url 'historial_pago' %}" class="dropdown-item">Historial Pagos</a>
+                        {% endif %}
+                        {% endfor %}
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Cerrar sesión" class="dropdown-item">
+                        </form>
+                    </div>
+                </div>
+                {% else %}
+                <a href="{% url 'login' %}" class="nav-item nav-link">Iniciar Sesión<i
+                        class="fa fa-arrow-right ms-3"></i></a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+    <!-- INICIO CONTENIDO -->
+    {% block contenido %}
+
+    {% endblock%}
+    <!-- FIN CONTENIDO -->
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn no-print" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Dirección</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Horario de apertura</h4>
+                    <h6 class="text-light">Lunes - Viernes:</h6>
+                    <p class="mb-4">09.00 AM - 09.00 PM</p>
+                    <h6 class="text-light">Sábados - Domingos:</h6>
+                    <p class="mb-0">09.00 AM - 12.00 PM</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-light mb-4">Servicios</h4>
+                    <a class="btn btn-link" href="{% url 'categoria_trabajo' 4 %}">Pruebas de diagnóstico</a>
+                    <a class="btn btn-link" href="{% url 'categoria_trabajo' 3 %}">Mantención de motores</a>
+                    <a class="btn btn-link" href="{% url 'categoria_trabajo' 2 %}">Reemplazo de neumáticos</a>
+                    <a class="btn btn-link" href="{% url 'categoria_trabajo' 1 %}">Cambio de aceite</a>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                        Desarrollado por Estudiantes de Ingeniería en Informática Duoc UC - 2024
+                        <br>Distribuido para: Taller Rayo Makween, Todos los derechos reservados
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top no-print"><i class="bi bi-arrow-up"></i></a>
+
+
+    {% block js %}
+
+    {% endblock%}
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'core/inicio/lib/wow/wow.min.js' %}"></script>
+    <script src="{% static 'core/inicio/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'core/inicio/lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'core/inicio/lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'core/inicio/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'core/inicio/lib/tempusdominus/js/moment.min.js' %}"></script>
+    <script src="{% static 'core/inicio/lib/tempusdominus/js/moment-timezone.min.js' %}"></script>
+    <script src="{% static 'core/inicio/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'core/inicio/js/main.js' %}"></script>
+    <script src="{% static 'core/js/funciones.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>

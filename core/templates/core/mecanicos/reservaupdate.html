@@ -1,0 +1,18 @@
+{% extends 'core/mecanicos/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<h1 class="text-center">Aplicar la reserva</h1>
+<br>
+{% load crispy_forms_tags %}
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form | crispy }}
+        </table>
+        <br>
+        <a href="{% url 'listarreservas' %}" class="btn btn-secondary">Volver</a>
+        <input class="btn btn-success" type="submit" value="Aplicar">
+        <h5>{{ msj }}</h5>
+    </form>
+{% endblock %}

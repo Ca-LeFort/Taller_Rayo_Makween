@@ -1,0 +1,187 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block contenido %}
+<!-- Page Header Start -->
+<div class="container-fluid page-header mb-5 p-0"
+    style="background-image: url(../static/core/inicio/img/carousel-bg-2.jpg);">
+    <div class="container-fluid page-header-inner py-5">
+        <div class="container text-center">
+            <h1 class="display-3 text-white mb-3 animated slideInDown">Carrito de servicios</h1>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+<br>
+
+
+<div class="row justify-content-center">
+    <div class="col-5">
+        {% if carrito.servicio_1 == 'S' %}
+        <div class="wow fadeInUp" data-wow-delay="0.1s">
+            <div class="team-item">
+                <div class="text-center p-4" style="background-color: rgb(187, 187, 187);">
+                    <h5 class="fw-bold mb-0">Pruebas de diagnóstico</h5>
+                    <small>Precio: $ {{ precio1 }} CLP</small>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% endif %}
+        {% if carrito.servicio_2 == 'S' %}
+        <div class="wow fadeInUp" data-wow-delay="0.1s">
+            <div class="team-item">
+                <div class="text-center p-4" style="background-color: rgb(187, 187, 187);">
+                    <h5 class="fw-bold mb-0">Mantención de Motores</h5>
+                    <small>Precio: $ {{ precio2 }} CLP</small>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% endif %}
+        {% if carrito.servicio_3 == 'S' %}
+        <div class="wow fadeInUp" data-wow-delay="0.1s">
+            <div class="team-item">
+                <div class="text-center p-4" style="background-color: rgb(187, 187, 187);">
+                    <h5 class="fw-bold mb-0">Reemplazo de neumáticos</h5>
+                    <small>Precio: $ {{ precio3 }} CLP</small>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% endif %}
+        {% if carrito.servicio_4 == 'S' %}
+        <div class="wow fadeInUp" data-wow-delay="0.1s">
+            <div class="team-item">
+                <div class="text-center p-4" style="background-color: rgb(187, 187, 187);">
+                    <h5 class="fw-bold mb-0">Cambio de aceite</h5>
+                    <small>Precio: $ {{ precio4 }} CLP</small>
+                    <br>
+                </div>
+            </div>
+        </div>
+        <hr>
+        {% endif %}
+
+
+
+        <div class="text-center">
+            {% if total_car > 0 %}
+            <p class="text-center">Total del carrito: ${{ precio_clp }} CLP</p>
+            <div style="justify-content: center;" class="text-center" id="paypal-button"></div>
+            <form method="POST" action="{% url 'limpiar_carrito' user.username %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary my-3">Limpiar carrito</button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+<!--PAYPAL-->
+
+{% endblock %}
+
+{% block js %}
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+    paypal.Button.render({
+        // Configure environment
+        env: 'sandbox',
+        client: {
+            sandbox: 'AVfY2oW0fEDQzZAPC64ioCnuP4yt5_p63qnE87NtYhPCAkD45Vw-I1QXSLr6UyovFi6kI8R8QJcqI4Em',
+            production: 'demo_production_client_id'
+        },
+        // Customize button (optional)
+        locale: 'en_US',
+        style: {
+            size: 'small',
+            color: 'gold',
+            shape: 'pill',
+        },
+
+        // Enable Pay Now checkout flow (optional)
+        commit: true,
+
+        // Set up a payment
+        payment: function (data, actions) {
+            return actions.payment.create({
+                transactions: [{
+                    amount: {
+                        total: '{{ format_total_car }}',
+                        currency: 'USD'
+                    }
+                }]
+            });
+        },
+        // Execute the payment
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function (payment) {
+                // Payment was successful
+                Swal.fire({
+                    title: 'Confirmación',
+                    text: 'Pago realizado correctamente!',
+                    icon: 'success',
+                    showCancelButton: false,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Confirmar'
+                }).then(function() {
+                    fetch("{% url 'procesar_pago' %}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-CSRFToken": "{{ csrf_token }}"
+                        },
+                        body: JSON.stringify({
+                            paymentID: data.paymentID,
+                            payerID: data.payerID,
+                            paymentToken: data.paymentToken,
+                            returnUrl: data.returnUrl,
+                            paymentDetails: payment
+                        })
+                    }).then(response => {
+                        if (response.ok) {
+                            fetch("{% url 'limpiar_carrito' user.username %}", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    "X-CSRFToken": "{{ csrf_token }}"
+                                },
+                                body: JSON.stringify({})
+                            }).then(response => {
+                                if (response.ok) {
+                                    window.location.reload();
+                                } else {
+                                    console.error("No se pudo limpiar el carrito");
+                                }
+                            }).catch(error => {
+                                console.error("Error:", error);
+                            });
+                        } else {
+                            console.error("No se pudo procesar el pago");
+                        }
+                    }).catch(error => {
+                        console.error("Error:", error);
+                    });
+                });
+            });
+        },
+        onCancel: function (data) {
+            Swal.fire({
+                title: 'Cancelado',
+                text: 'Transacción cancelada!',
+                icon: 'error',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar'
+            });
+        }
+    }, '#paypal-button');
+</script>
+{% endblock%}

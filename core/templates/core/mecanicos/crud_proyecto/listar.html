@@ -1,0 +1,57 @@
+{% extends 'core/mecanicos/base.html' %}
+{% load static %}
+{% block contenido %}
+<h1 class="text-center mb-2">Lista de proyectos</h1>
+<br>
+{% for aux in page_obj %}
+<div class="preview-item border-bottom">
+    <div class="preview-thumbnail">
+    </div>
+    <div class="preview-item-content d-sm-flex flex-grow">
+        <div class="flex-grow">
+            <h6 class="preview-subject">{{ aux.nombre_trabajo }}</h6>
+            <p class="text-muted mb-0">Mecánico responsable: {{ aux.mecanico }}</p>
+            {% if user.is_staff %}
+            <a href="{% url 'trabajoupdate' aux.id %}" class="mb-3 my-2 btn btn-primary">Revisar</a>
+            {% endif %}
+            {% if aux.estado_publicacion == 'R' %}
+            <p class="mb-2 my-1">Motivo de rechazo: {{ aux.comentario_admin }}</p>
+            {% endif %}
+        </div>
+        <div class="mr-auto text-sm-right pt-2 pt-sm-0">
+            <h6 class="preview-subject">Estado</h6>
+            {% if aux.estado_publicacion == 'P' %}
+            <button type="button" class="btn btn-secondary active mb-3 my-1">PENDIENTE</button>
+            {% elif aux.estado_publicacion == 'A' %}
+            <button type="button" class="btn btn-success active mb-3 my-1">ACEPTADO</button>
+            {% elif aux.estado_publicacion == 'R' %}
+            <button type="button" class="btn btn-danger active mb-3 my-1">RECHAZADO</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<br>
+{% endfor %}
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=1">&laquo; Primera</a></li>
+        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a></li>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+        <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+        {% elif num > page_obj.number|add:'-5' and num < page_obj.number|add:'5' %} <li class="page-item"><a
+                class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+            {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Última
+                    &raquo;</a></li>
+            {% endif %}
+    </ul>
+</nav>
+{% endblock %}
